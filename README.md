@@ -1,5 +1,5 @@
 # FastPID
-A fast 32-bit fixed-point PID controller for Arduino 
+A fast 32-bit fixed-point PID controller for ESP
 
 ## About 
 
