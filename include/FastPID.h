@@ -17,7 +17,7 @@
 #define PARAM_MULT   (((0x1ULL << PARAM_BITS)) >> (PARAM_BITS - PARAM_SHIFT)) 
 
 
-struct FastPID
+typedef struct FastPID
 {
     // Configuration
     uint32_t _p, _i, _d;
@@ -28,7 +28,7 @@ struct FastPID
     int16_t _last_out;
     int64_t _sum;
     int32_t _last_err;
-}pid;
+}FastPID;
 
 
 
