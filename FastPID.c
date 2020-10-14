@@ -1,9 +1,9 @@
-#include "FastPID.h"
+#include "include/FastPID.h"
 #include <stdint.h>
 #include <stdbool.h>
 
 // refer to https://www.embeddedrelated.com/showarticle/1015.php to understand fixed point arithmetic 
-
+FastPID* pid;
 
 void setCfgErr(FastPID* pid) 
 {
@@ -14,7 +14,6 @@ void setCfgErr(FastPID* pid)
 void clear(FastPID* pid)
 {
     pid->_cfg_err = false;
-    pid->_last_sp = 0; 
     pid->_last_out = 0;
     pid->_sum = 0; 
     pid->_last_err = 0;   
@@ -85,9 +84,9 @@ uint32_t floatToParam(FastPID* pid, float in)
 
 bool setCoefficients(FastPID* pid, float kp, float ki, float kd, float hz)
 {
-    pid->_p = floatToParam(pid, pid->kp);
-    pid->_i = floatToParam(pid, pid->ki / pid->hz);
-    pid->_d = floatToParam(pid, pid->kd * pid->hz);
+    pid->_p = floatToParam(pid, pid->_p);
+    pid->_i = floatToParam(pid, pid->_i / pid->hz);
+    pid->_d = floatToParam(pid, pid->_d * pid->hz);
 
     return !pid->_cfg_err;
 }
@@ -97,7 +96,7 @@ bool configure(FastPID* pid, float kp, float ki, float kd, float hz, int bits, b
 {
     clear(pid);
     pid->_cfg_err = false;
-    setCoefficients(pid, pid->kp, pid->ki, pid->kd, pid->hz);
+    setCoefficients(pid, pid->_p, pid->_i, pid->_d, pid->hz);
     setOutputConfig(pid, pid->bits, pid->sign);
     return pid->_cfg_err;
 }
@@ -169,3 +168,4 @@ int16_t step(FastPID* pid, int16_t sp , int16_t cp) //Setpoint , Currentpoint
     return rval;
 
 }
+

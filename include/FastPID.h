@@ -21,8 +21,11 @@ typedef struct FastPID
 {
     // Configuration
     uint32_t _p, _i, _d;
+    float hz;
     int64_t _outmax, _outmin; 
     bool _cfg_err; 
+    int bits;
+    bool sign;
     
     // State
     int16_t _last_out;
@@ -30,7 +33,7 @@ typedef struct FastPID
     int32_t _last_err;
 }FastPID;
 
-
+FastPID* pid;
 
 void setCfgErr();
 void clear();
